@@ -5,6 +5,7 @@ import Entidades.Personaje;
 import Repositorio.RepositorioPelicula;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,8 +71,16 @@ public class ServicioPelicula {
         
         p.setPeli(peli);
         
-        return p;
-    }
+        return p;    }
+    
+    @Transactional()
+    public void eliminarPelicula(String id) throws Exception {
+     Optional <Pelicula> respuesta = rp.findById(id);
+        if (respuesta.isPresent()) {
+            rp.deleteById(id);
+        }else {
+            throw new Exception("No se encontro el ID solicitado");
+        }    }
     
     @Transactional
     public void validar(String foto, String titulo, Integer calificacion) throws Exception{

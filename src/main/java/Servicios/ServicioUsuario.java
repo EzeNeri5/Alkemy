@@ -2,6 +2,7 @@ package Servicios;
 
 import Entidades.Usuario;
 import Repositorio.RepositorioUsuario;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,14 @@ public class ServicioUsuario {
         else {return null;}
     }
     
+    @Transactional()
+    public void eliminarUsuario(String id) throws Exception {
+        Optional <Usuario> respuesta = ru.findById(id);
+        if (respuesta.isPresent()) {
+            ru.deleteById(id);
+        }else {
+            throw new Exception("No se encontro el ID solicitado");
+        }    }
     @Transactional
     public void validar(String nombre, String clave, String clave2, String email) throws Exception{
     

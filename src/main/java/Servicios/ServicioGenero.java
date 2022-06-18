@@ -4,6 +4,8 @@ import Entidades.Genero;
 import Entidades.Pelicula;
 import Repositorio.RepositorioGenero;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +43,16 @@ public class ServicioGenero {
         
         return g;}
         else {return null;}
-        
     }
+    
+    @Transactional()
+    public void eliminarGenero(String id) throws Exception {
+        Optional <Genero> respuesta = rg.findById(id);
+        if (respuesta.isPresent()) {
+            rg.deleteById(id);
+        }else {
+            throw new Exception("No se encontro el ID solicitado");
+        }    }
     
     public void validar(String foto, String nombre, Pelicula peli) throws Exception{
     
